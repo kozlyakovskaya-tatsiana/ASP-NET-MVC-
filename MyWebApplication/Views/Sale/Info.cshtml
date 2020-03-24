@@ -1,0 +1,183 @@
+﻿@using MyWebApplication.Models
+
+@model SaleViewModel
+
+<div id="pageinfo" class="row ">
+    <img id="loadingpageinfo" class="center-block" src="~/Content/Images/loader_map.gif" style="display:none" />
+    <div class="col-md-2 text-center">
+        @if (User.IsInRole("admin"))
+        {
+            @Ajax.ActionLink("Add new sale", "Create", "Sale", new AjaxOptions { UpdateTargetId = "addnew", LoadingElementId = "loading" })
+        }
+    </div>
+    <div class="col-md-8">
+        @if (User.IsInRole("admin"))
+        {
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Manager</th>
+                        <th>Customer</th>
+                        <th>Product's name</th>
+                        <th>Product's cost</th>
+                        <th>Sum</th>
+                        <th>Date</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sale in Model.SalesPerPage)
+                    {
+
+                        var manager = sale?.Manager?.Name ?? "NULL";
+
+                        var customer = sale?.Customer?.FullName ?? "NULL";
+
+                        var productName = sale?.Product?.Name ?? "NULL";
+
+                        var productCost = sale?.Product?.Cost.ToString() ?? "NULL";
+
+                        var date = sale?.Date.ToString("dd.MM.yyyy") ?? "NULL";
+
+                        var sum = sale?.Sum.ToString() ?? "NULL";
+
+                        <tr>
+                            <td>@manager</td>
+                            <td>@customer</td>
+                            <td>@productName</td>
+                            <td>@productCost</td>
+                            <td>@sum</td>
+                            <td>@date</td>
+                            <th>
+                                @Ajax.ActionLink("Edit", "Edit", "Sale",
+                                new { id = sale.Id },
+                                new AjaxOptions { UpdateTargetId = "addnew", LoadingElementId = "loading" })
+                            </th>
+                            <th>
+                                @Ajax.ActionLink("Delete", "ConfirmDelete", "Sale",
+                                new { id = sale.Id },
+                                new AjaxOptions { UpdateTargetId = "deleteedit", LoadingElementId = "loading" })
+                            </th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Manager</th>
+                        <th>Customer</th>
+                        <th>Product's name</th>
+                        <th>Product's cost</th>
+                        <th>Sum</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sale in Model.SalesPerPage)
+                    {
+
+                        var manager = sale?.Manager?.Name ?? "NULL";
+
+                        var customer = sale?.Customer?.FullName ?? "NULL";
+
+                        var productName = sale?.Product?.Name ?? "NULL";
+
+                        var productCost = sale?.Product?.Cost.ToString() ?? "NULL";
+
+                        var date = sale?.Date.ToString("dd.MM.yyyy") ?? "NULL";
+
+                        var sum = sale?.Sum.ToString() ?? "NULL";
+
+                        <tr>
+                            <td>@manager</td>
+                            <td>@customer</td>
+                            <td>@productName</td>
+                            <td>@productCost</td>
+                            <td>@sum</td>
+                            <td>@date</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+
+        <div class="text-center">
+            <p>Current page: @Model.PageInfo.CurrentPageNumber</p>
+            <ul class="pagination">
+
+                @for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
+                {
+                    <li>
+                        @Ajax.ActionLink(i.ToString(), "Info", "Sale",
+                        new { pageNumber = i, criteria = Model.SortingFilters.SelectedValue, manager = Model.Managers.SelectedValue, customer = Model.Customers.SelectedValue },
+                        new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo" })
+                    </li>
+                }
+
+            </ul>
+        </div>
+
+        <div class="text-center">
+            @if (Model.PageInfo.HasPreviousPage)
+            {
+                @Ajax.ActionLink("Previous", "Info", "Sale",
+                new { pageNumber = Model.PageInfo.CurrentPageNumber - 1, criteria = Model.SortingFilters.SelectedValue, manager = Model.Managers.SelectedValue, customer = Model.Customers.SelectedValue },
+                new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo" }, htmlAttributes: new { @class = "btn btn-info", role = "button" });
+            }
+
+            @if (Model.PageInfo.HasNextPage)
+            {
+                @Ajax.ActionLink("Next", "Info", "Sale",
+               new { pageNumber = Model.PageInfo.CurrentPageNumber + 1, criteria = Model.SortingFilters.SelectedValue, manager = Model.Managers.SelectedValue, customer = Model.Customers.SelectedValue },
+               new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo" }, htmlAttributes: new { @class = "btn btn-info", role = "button" });
+            }
+
+        </div>
+        <br />
+
+    </div>
+
+    <div class="col-md-2 text-center">
+        @using (Ajax.BeginForm("Info", "Sale", new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo", HttpMethod = "Get" }))
+        {
+            <label class="control-label">Sorting: </label>
+            @Html.DropDownList("criteria", Model.SortingFilters,
+                      htmlAttributes: new { @class = "form-control" })
+            <br />
+            <label class="control-label">Manager: </label>
+            @Html.DropDownList("manager", Model.Managers,
+                     htmlAttributes: new { @class = "form-control" })
+            <br />
+
+            <label class="control-label">Customer: </label>
+            @Html.DropDownList("customer", Model.Customers,
+                     htmlAttributes: new { @class = "form-control" })
+            <br />
+
+            <button type="submit" class="btn">Filter</button>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div id="addnew" class="col-md-3 col-md-offset-4 text-center">
+        
+            <img id="loading" class="center-block" src="~/Content/Images/loader_map.gif" style="display:none" />
+        
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div id="deleteedit" class="text-center">
+            <img id="loading" class="center-block" src="~/Content/Images/loader_map.gif" style="display:none" />
+        </div>
+    </div>
+</div>
+
+

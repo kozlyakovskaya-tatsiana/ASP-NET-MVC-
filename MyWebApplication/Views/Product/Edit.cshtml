@@ -1,0 +1,36 @@
+﻿@model DataAccessLayer.EntityModels.Product
+
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <br />
+
+    @Html.HiddenFor(prod => prod.Id)
+
+    @Html.LabelFor(product => product.Name, "Name")
+
+    @Html.TextBoxFor(product => product.Name)
+
+    <br />
+
+    @Html.ValidationMessageFor(product => product.Name)
+
+
+    @Html.LabelFor(product => product.Cost, "Cost")
+
+    @Html.TextBoxFor(product => product.Cost)
+
+    <br />
+
+    @Html.ValidationMessageFor(product => product.Cost)
+
+
+    <br />
+
+    <button type="submit" class="btn">Edit product</button>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

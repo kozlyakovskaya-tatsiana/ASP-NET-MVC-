@@ -1,0 +1,51 @@
+﻿@using Authorization.Models
+
+@model RegisterModel
+
+
+<div class="jumbotron text-center">
+    <h2>Registration</h2>
+    <p>Web application based on ASP.NET MVC</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 text-center">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true)
+
+            <div>
+
+                <div>@Html.LabelFor(model => model.Email, "Email")</div>
+                <div>
+                    @Html.EditorFor(model => model.Email)
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+
+                <div>@Html.LabelFor(model => model.Password, "Password")</div>
+                <div>
+                    @Html.EditorFor(model => model.Password)
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+
+                <div>@Html.LabelFor(model => model.PasswordConfirm, "Confirm password")</div>
+                <div>
+                    @Html.EditorFor(model => model.PasswordConfirm)
+                    <br />
+                    @Html.ValidationMessageFor(model => model.PasswordConfirm)
+                </div>
+
+                <div>
+                    <div>
+                        <input type="submit" value="Sign up" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,103 @@
+﻿@using MyWebApplication.Models
+
+@model ManagerViewModel
+
+<div id="pageinfo" class="row ">
+    <img id="loadingpageinfo" class="center-block" src="~/Content/Images/loader_map.gif" style="display:none" />
+    <div class="col-md-3 text-center">
+        @if (User.IsInRole("admin"))
+        {
+            @Ajax.ActionLink("Add new manager", "Create", "Manager", new AjaxOptions { UpdateTargetId = "addnew", LoadingElementId = "loading" })
+        }
+    </div>
+    <div class="col-md-6">
+        @if (User.IsInRole("admin"))
+        {
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var manager in Model.ManagersPerPage)
+                    {
+                        <tr>
+                            <td>@manager.Name</td>
+                            <th>@Ajax.ActionLink("Edit", "Edit", "Manager", new { id = manager.Id }, new AjaxOptions { UpdateTargetId = "addnew", LoadingElementId = "loading" })</th>
+                            <th>@Ajax.ActionLink("Delete", "ConfirmDelete", "Manager", new { id = manager.Id }, new AjaxOptions { UpdateTargetId = "addnew", LoadingElementId = "loading" })</th>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table id="table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var manager in Model.ManagersPerPage)
+                    {
+                        <tr>
+                            <td>@manager.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+
+        <div class="text-center">
+            <p>Current page: @Model.PageInfo.CurrentPageNumber</p>
+            <ul class="pagination">
+
+                @for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
+                {
+                    <li>@Ajax.ActionLink(i.ToString(), "Info", "Manager", new { pageNumber = i, criteria = Model.Filters.SelectedValue }, new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo" })</li>
+                }
+
+            </ul>
+        </div>
+
+        <div class="text-center">
+            @if (Model.PageInfo.HasPreviousPage)
+            {
+                @Ajax.ActionLink("Previous", "Info", "Manager", new { pageNumber = Model.PageInfo.CurrentPageNumber - 1, criteria = Model.Filters.SelectedValue }, new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo" }, htmlAttributes: new { @class = "btn btn-info", role = "button" });
+            }
+            @if (Model.PageInfo.HasNextPage)
+            {
+                @Ajax.ActionLink("Next", "Info", "Manager", new { pageNumber = Model.PageInfo.CurrentPageNumber + 1, criteria = Model.Filters.SelectedValue }, new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo" }, htmlAttributes: new { @class = "btn btn-info", role = "button" });
+            }
+
+        </div>
+        <br />
+
+    </div>
+
+    <div class="col-md-3 text-center">
+        @using (Ajax.BeginForm("Info", "Manager", new AjaxOptions { UpdateTargetId = "pageinfo", LoadingElementId = "loadingpageinfo", HttpMethod = "Get" }))
+        {
+            <label class="control-label">Sorting: </label>
+            @Html.DropDownList("criteria", Model.Filters,
+                      htmlAttributes: new { @class = "form-control" })
+            <input type="hidden" name="pageNumber" value="@Model.PageInfo.CurrentPageNumber" />
+            <br />
+            <button type="submit" class="btn">Filter</button>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="addnew" class="text-center">
+            <img id="loading" class="center-block" src="~/Content/Images/loader_map.gif" style="display:none" />
+        </div>
+    </div>
+</div>

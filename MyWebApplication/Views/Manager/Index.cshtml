@@ -1,0 +1,16 @@
+﻿<div class="jumbotron text-center">
+    <h2>Managers</h2>
+    <p>Web application based on ASP.NET MVC</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 text-center">
+        @Ajax.ActionLink("Load data about managers", "Info", "Manager", new AjaxOptions { UpdateTargetId = "displayInfo", LoadingElementId = "loading" }, htmlAttributes: new { @class = "btn btn-info", role = "button" })
+    </div>
+</div>
+<br />
+<div id="displayInfo">
+    <img id="loading" class="center-block" src="~/Content/Images/loader_map.gif" style="display:none" />
+</div>
+
+

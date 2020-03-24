@@ -1,0 +1,51 @@
+﻿@using MyWebApplication.Models
+
+@model SaleCreateViewModel
+
+@using (Html.BeginForm("Create", "Sale", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <br />
+
+    @Html.DropDownListFor(model => model.Sale.ManagerId, Model.Managers,
+                     htmlAttributes: new { @class = "form-control" })
+
+    @Html.ValidationMessageFor(model => model.Sale.ManagerId)
+    <br />
+
+    @Html.DropDownListFor(model => model.Sale.CustomerId, Model.Customers,
+                     htmlAttributes: new { @class = "form-control" })
+
+
+    @Html.ValidationMessageFor(model => model.Sale.CustomerId)
+
+    <br />
+
+    @Html.DropDownListFor(model => model.Sale.ProductId, Model.Products,
+                     htmlAttributes: new { @class = "form-control" })
+
+    @Html.ValidationMessageFor(model => model.Sale.ProductId)
+
+    <br />
+
+    <label for="Sum" class="control-label">Sum: </label>
+    @Html.TextBoxFor(model => model.Sale.Sum)
+
+    @Html.ValidationMessageFor(model => model.Sale.Sum)
+
+    <br />
+
+    <label for="Date" class="control-label">Date: </label>
+    @Html.TextBoxFor(model => model.Sale.Date)
+
+    @Html.ValidationMessageFor(model => model.Sale.Date)
+
+    <br />
+    <button type="submit" class="btn">Edit sale</button>
+
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

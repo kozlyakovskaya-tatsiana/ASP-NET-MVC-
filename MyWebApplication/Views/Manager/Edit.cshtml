@@ -1,0 +1,27 @@
+﻿@model DataAccessLayer.EntityModels.Manager
+
+@using (Html.BeginForm("Edit", "Manager", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <br />
+
+    @Html.HiddenFor(manager => manager.Id)
+
+    @Html.LabelFor(manager => manager.Name, "Name")
+
+    @Html.TextBoxFor(manager => manager.Name)
+
+    <br />
+
+    @Html.ValidationMessageFor(manager => manager.Name)
+
+    <br />
+
+    <button type="submit" class="btn">Edit manager</button>
+
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

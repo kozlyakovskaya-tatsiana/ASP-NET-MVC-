@@ -1,0 +1,32 @@
+﻿@model DataAccessLayer.EntityModels.Sale
+
+@Html.LabelFor(sale => sale.Manager.Name, "Manager: ") @Model.Manager.Name
+
+<br />
+
+@Html.LabelFor(sale => sale.Customer.FullName, "Customer: ") @Model.Customer.FullName
+
+<br />
+
+@Html.LabelFor(sale => sale.Product.Name, "Product's name: ") @Model.Product.Name
+
+<br />
+
+@Html.LabelFor(sale => sale.Product.Cost, "Product's cost: ") @Model.Product.Cost
+
+<br />
+
+@Html.LabelFor(sale => sale.Sum, "Sum: ") @Model.Sum
+
+<br />
+
+@Html.LabelFor(sale => sale.Date, "Date: ") @Model.Date.ToString("dd.MM.yyyy")
+
+<br />
+
+@using (Html.BeginForm("Delete", "Sale", FormMethod.Post))
+{
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <button type="submit" class="btn">Delete sale</button>
+}

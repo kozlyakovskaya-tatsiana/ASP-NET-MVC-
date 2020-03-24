@@ -1,0 +1,26 @@
+﻿@model DataAccessLayer.EntityModels.Customer
+
+@using (Html.BeginForm("Edit", "Customer", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    <br />
+
+    @Html.HiddenFor(cust => cust.Id)
+
+    @Html.LabelFor(cust => cust.FullName, "Name")
+
+    @Html.TextBoxFor(cust => cust.FullName)
+
+    <br />
+
+    @Html.ValidationMessageFor(cust => cust.FullName)
+
+    <br />
+
+    <button type="submit" class="btn">Edit customer</button>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

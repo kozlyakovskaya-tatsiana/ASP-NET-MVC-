@@ -1,0 +1,17 @@
+﻿@model DataAccessLayer.EntityModels.Product
+
+@Html.LabelFor(prod => prod.Name, "Product's name: ") @Model.Name
+
+<br />
+
+@Html.LabelFor(prod => prod.Cost, "Product's cost: ") @Model.Cost
+
+<br />
+
+@using (Html.BeginForm("Delete", "Product", FormMethod.Post))
+{
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <button type="submit" class="btn">Delete product</button>
+}
+

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My ASP.NET Application</title>
+
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/Home/Index" class="navbar-brand">WebApplication</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/Manager/Index">Managers</a></li>
+                <li><a href="/Customer/Index">Customers</a></li>
+                <li><a href="/Product/Index">Products</a></li>
+                <li><a href="/Sale/Index">Sales</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a>@User.Identity.Name</a></li>
+                        <li><a href="/Account/Logout">Log out</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/Account/Register">Sign up</a></li>
+                        <li><a href="/Account/Login">Log in</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </nav>
+    <div class="container body-content">
+
+        @RenderBody()
+        
+
+    </div>
+
+    <div class="row container">
+        <footer class="col-md-12 ">
+            <h4 class="container">@DateTime.Now.Year Kozlyakovskaya Tatsiana PM 172</h4>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>
+
